@@ -1,36 +1,36 @@
-                            ƒe[ƒuƒ‹ "public.general"
-     —ñ     |   Œ^    |                          CüŒê                          
+ï»¿                            ãƒ†ãƒ¼ãƒ–ãƒ« "public.general"
+     åˆ—     |   å‹    |                          ä¿®é£¾èª                          
 ------------+---------+----------------------------------------------------------
  number     | integer | not null default nextval('general_number_seq'::regclass)
  accountid  | text    | not null
  password   | text    | not null
  publickey  | bytea   | 
  privatekey | bytea   | 
-ƒCƒ“ƒfƒbƒNƒX:
+ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹:
     "general_pkey" PRIMARY KEY, btree (number)
     "general_accountid_key" UNIQUE CONSTRAINT, btree (accountid)
-QÆŒ³F
+å‚ç…§å…ƒï¼š
     TABLE "message" CONSTRAINT "message_number_fkey" FOREIGN KEY (number) REFERENCES general(number)
 
-                           ƒe[ƒuƒ‹ "public.malice"
-    —ñ     |   Œ^    |                         CüŒê                          
+                           ãƒ†ãƒ¼ãƒ–ãƒ« "public.malice"
+    åˆ—     |   å‹    |                         ä¿®é£¾èª                          
 -----------+---------+---------------------------------------------------------
  number    | integer | not null default nextval('malice_number_seq'::regclass)
  accountid | text    | not null
  password  | text    | not null
-ƒCƒ“ƒfƒbƒNƒX:
+ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹:
     "malice_pkey" PRIMARY KEY, btree (number)
     "malice_accountid_key" UNIQUE CONSTRAINT, btree (accountid)
 
-                             ƒe[ƒuƒ‹ "public.message"
-    —ñ     |   Œ^    |                           CüŒê                            
+                             ãƒ†ãƒ¼ãƒ–ãƒ« "public.message"
+    åˆ—     |   å‹    |                           ä¿®é£¾èª                            
 -----------+---------+-------------------------------------------------------------
  messageid | integer | not null default nextval('message_messageid_seq'::regclass)
  message   | text    | 
  tst       | bytea   | 
  number    | integer | 
-ƒCƒ“ƒfƒbƒNƒX:
+ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹:
     "message_pkey" PRIMARY KEY, btree (messageid)
-ŠO•”ƒL[§–ñ:
+å¤–éƒ¨ã‚­ãƒ¼åˆ¶ç´„:
     "message_number_fkey" FOREIGN KEY (number) REFERENCES general(number)
 
