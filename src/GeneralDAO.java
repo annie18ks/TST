@@ -1,6 +1,6 @@
 import java.sql.*;
 
-public class AccountDAO {
+public class GeneralDAO {
     final private static String driverClassName = "org.postgresql.Driver";
     final private static String dbname = "TST"; //データベース名前
     final private static String user = "tstuser"; //ユーザー名
@@ -14,15 +14,17 @@ public class AccountDAO {
     PreparedStatement pstmt_U2; //UPDATE用 password
     PreparedStatement pstmt_D; //DELETE用
 
+    ResultSet resultSet;
+
     String SQL_S = "SELECT * FROM general";
     String SELECT_SQL = "SELECT * FROM general WHERE accountid = ?";
     String INSERT_SQL = "INSERT INTO general (accountid, password, privatekey, publickey) VALUES (?, ?, ?, ?)";
-    String UPDATE_ACCOUNTID = "UPDATE general SET accountid = ? WHERE accountid = ?";
+    String UPDATE_ACCOUNTID = "UPDATE general SET accountid = ? WHERE number = ?";
     String UPDATE_PASSWORD = "UPDATE general SET password = ? WHERE accountid = ?";
     String DELETE_SQL = "DELETE FROM general WHERE accountid = ?";
 
-    public Account returnAccount(String accountID) throws SQLException{ //アカウント取得
-        Account account = new Account();
+    public GeneralUser returnAccount(String accountID) throws SQLException{ //一般アカウント取得
+        GeneralUser generaluser = new GeneralUser();
 
         try{
             Class.forName(driverClassName);
@@ -30,28 +32,28 @@ public class AccountDAO {
             pstmt_S = connection.prepareStatement(SELECT_SQL);
             pstmt_S.setString(1, accountID);
 
-            account = showTable(pstmt_S.executeQuery());
+            generaluser = showTable(pstmt_S.executeQuery());
 
-            Pstmt_S.close();
+            pstmt_S.close();
             connection.close();
         }
         catch(Exception e){
             e.printStackTrace();
         }
-        return account;
+        return generaluser;
     }
 
-    public boolean makeAccount(Account account) throws SQLException{ //アカウント作成
+    public boolean makeGeneralUser(GeneralUser generaluser) throws SQLException{ //一般アカウント作成
         boolean result = true;
         try{
             Class.forName(driverClassName);
             connection = DriverManager.getConnection(url, user, password);
 
             pstmt_I =connection.prepareStatement(INSERT_SQL);
-            pstmt_I.setString(1, account.getAccountID());
-            pstmt_I.setString(2, account.getPassword());
-            pstmt_I.setString(3, account.getPrivateKey());
-            pstmt_I.setString(4, account.getPublicKey());
+            pstmt_I.setString(1, generaluser.getAccountID());
+            pstmt_I.setString(2, generaluser.getPassword());
+            pstmt_I.setByte(3, generaluser.getPrivateKey());
+            pstmt_I.setByte(4, generaluser.getPublicKey());
 
             pstmt_I.executeUpdate();
 
@@ -64,7 +66,7 @@ public class AccountDAO {
         return result;
     }
 
-    public boolean updateAccount(Account account) throws SQLException{ //アカウント情報更新
+    public boolean updateGeneralUser(GeneralUser generaluser) throws SQLException{ //一般アカウント情報更新
         boolean result = true;
         try{
             Class.forName(driverClassName);
@@ -73,12 +75,12 @@ public class AccountDAO {
             pstmt_U1 = connection.prepareStatement(UPDATE_ACCOUNTID);
             pstmt_U2 = connection.prepareStatement(UPDATE_PASSWORD);
 
-            pstmt_U1.setString(1,account.getAccountID());
-            pstmt_U2.setString(2,accountID);
+            pstmt_U1.setString(1,generaluser.getAccountID());
+            pstmt_U2.setInt(2,generaluser.getNumber);
             pstmt_U1.executeUpdate();
 
-            pstmt_U2.setString(1,account.getPassword());
-            pstmt_U2.setString(2,accountID);
+            pstmt_U2.setString(1,generaluser.getPassword());
+            pstmt_U2.setString(2,generaluser.getAccountID);
             pstmt_U2.executeUpdate();
 
             pstmt_U1.close();
@@ -91,7 +93,7 @@ public class AccountDAO {
         return result;
     }
 
-    public void deleteAccount(String accoundID) throws SQLException{ //アカウント削除
+    public void deleteGeneralUser(String accountID) throws SQLException{ //一般アカウント削除
         try{
             Class.forName(driverClassName);
             connection = DriverManager.getConnection(url, user, password);
@@ -107,13 +109,16 @@ public class AccountDAO {
         }
     }
 
-    static Account showTable(ResultSet resultset) throws Exception {
-        Account account = new Account();
+    static GeneralUser showTable(ResultSet resultset) throws Exception {
+        GeneralUser generaluser = new GeneralUser();
         while(resultset.next()) {
-            account.setAccountID(resultset.getString("accountid"));
-            account.setPassword(resultset.getString("password"));
+            generaluser.setNumber(resultset.getInt("number"));
+            generaluser.setAccountID(resultset.getString("accountID"));
+            generaluser.setPassword(resultset.getString("password"));
+            generaluser.setPrivateKey(resultset.getByte("privatekey"));
+            generaluser.setPublicKey(resultset.getByte("publickey"));
             resultset.close();
         }
-        return account;
+        return generaluser;
     }
 }
