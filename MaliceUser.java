@@ -2,16 +2,16 @@
  * Created by PCUser on 2017/03/24.
  */
 public class MaliceUser {
-    private int maNumber;
+    private int Number;
     private String accountID;
     private String accountPW;
 
-    public void setMeNumber(int maNumber) {
-        this.maNumber = maNumber;
+    public void setNumber(int Number) {
+        this.Number = Number;
     }
 
-    public int getMaNumber() {
-        return maNumber;
+    public int getNumber() {
+        return Number;
     }
 
     public void setAccountID(String accountID) {

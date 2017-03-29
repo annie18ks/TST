@@ -2,18 +2,18 @@
  * Created by PCUser on 2017/03/24.
  */
 public class GeneralUser {
-    private int geNumber;
+    private int Number;
     private String accountID;
     private String accountPW;
-    private byte[] publickKey;
+    private byte[] publicKey;
     private byte[] privateKey;
 
-    public void setGeNumber(int geNumber) {
-        this.geNumber = geNumber;
+    public void setNumber(int Number) {
+        this.Number = Number;
     }
 
-    public int getGeNumber() {
-        return geNumber;
+    public int getNumber() {
+        return Number;
     }
 
     public void setAccountID(String accountID) {
@@ -32,12 +32,12 @@ public class GeneralUser {
         return accountPW;
     }
 
-    public void setPublickKey(byte[] publickKey) {
-        this.publickKey = publickKey;
+    public void setPublicKey(byte[] publicKey) {
+        this.publicKey = publicKey;
     }
 
-    public byte[] getPublickKey() {
-        return publickKey;
+    public byte[] getPublicKey() {
+        return publicKey;
     }
 
     public void setPrivateKey(byte[] privateKey) {

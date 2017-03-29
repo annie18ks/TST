@@ -4,7 +4,7 @@
 public class Message {
     private int messageID;
     private String message;
-    private byte[] tst;
+    private byte[] TST;
     private int number;
 
     public void setMessageID(int messageID) {
@@ -23,12 +23,12 @@ public class Message {
         return message;
     }
 
-    public void setTst(byte[] tst) {
-        this.tst = tst;
+    public void setTST(byte[] TST) {
+        this.TST = TST;
     }
 
-    public byte[] getTst() {
-        return tst;
+    public byte[] getTST() {
+        return TST;
     }
 
     public void setNumber(int number) {
