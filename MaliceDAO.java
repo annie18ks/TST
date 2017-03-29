@@ -14,8 +14,6 @@ public class MaliceDAO {
     PreparedStatement pstmt_U2; //UPDATE用 password
     PreparedStatement pstmt_D; //DELETE用
 
-    ResultSet resultSet;
-
     String SQL_S = "SELECT * FROM malice";
     String SELECT_SQL = "SELECT * FROM malice WHERE accountid = ?";
     String INSERT_SQL = "INSERT INTO malice (accountid, password) VALUES (?, ?)";
@@ -51,7 +49,7 @@ public class MaliceDAO {
 
             pstmt_I =connection.prepareStatement(INSERT_SQL);
             pstmt_I.setString(1, maliceuser.getAccountID());
-            pstmt_I.setString(2, maliceuser.getPassword());
+            pstmt_I.setString(2, maliceuser.getAccountPW());
 
             pstmt_I.executeUpdate();
 
@@ -74,11 +72,11 @@ public class MaliceDAO {
             pstmt_U2 = connection.prepareStatement(UPDATE_PASSWORD);
 
             pstmt_U1.setString(1,maliceuser.getAccountID());
-            pstmt_U2.setInt(2,maliceuser.getNumber);
+            pstmt_U1.setInt(2,maliceuser.getNumber());
             pstmt_U1.executeUpdate();
 
-            pstmt_U2.setString(1,maliceuser.getPassword());
-            pstmt_U2.setString(2,maliceuser.getAccountID);
+            pstmt_U2.setString(1,maliceuser.getAccountPW());
+            pstmt_U2.setString(2,maliceuser.getAccountID());
             pstmt_U2.executeUpdate();
 
             pstmt_U1.close();
@@ -112,7 +110,7 @@ public class MaliceDAO {
         while(resultset.next()) {
             maliceuser.setNumber(resultset.getInt("number"));
             maliceuser.setAccountID(resultset.getString("accountID"));
-            maliceuser.setPassword(resultset.getString("password"));
+            maliceuser.setAccountPW(resultset.getString("password"));
             resultset.close();
         }
         return maliceuser;

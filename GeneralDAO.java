@@ -14,8 +14,6 @@ public class GeneralDAO {
     PreparedStatement pstmt_U2; //UPDATE用 password
     PreparedStatement pstmt_D; //DELETE用
 
-    ResultSet resultSet;
-
     String SQL_S = "SELECT * FROM general";
     String SELECT_SQL = "SELECT * FROM general WHERE accountid = ?";
     String INSERT_SQL = "INSERT INTO general (accountid, password, privatekey, publickey) VALUES (?, ?, ?, ?)";
@@ -51,9 +49,9 @@ public class GeneralDAO {
 
             pstmt_I =connection.prepareStatement(INSERT_SQL);
             pstmt_I.setString(1, generaluser.getAccountID());
-            pstmt_I.setString(2, generaluser.getPassword());
-            pstmt_I.setByte(3, generaluser.getPrivateKey());
-            pstmt_I.setByte(4, generaluser.getPublicKey());
+            pstmt_I.setString(2, generaluser.getAccountPW());
+            pstmt_I.setBytes(3, generaluser.getPrivateKey());
+            pstmt_I.setBytes(4, generaluser.getPublicKey());
 
             pstmt_I.executeUpdate();
 
@@ -76,11 +74,11 @@ public class GeneralDAO {
             pstmt_U2 = connection.prepareStatement(UPDATE_PASSWORD);
 
             pstmt_U1.setString(1,generaluser.getAccountID());
-            pstmt_U2.setInt(2,generaluser.getNumber);
+            pstmt_U1.setInt(2,generaluser.getNumber());
             pstmt_U1.executeUpdate();
 
-            pstmt_U2.setString(1,generaluser.getPassword());
-            pstmt_U2.setString(2,generaluser.getAccountID);
+            pstmt_U2.setString(1,generaluser.getAccountPW());
+            pstmt_U2.setString(2,generaluser.getAccountID());
             pstmt_U2.executeUpdate();
 
             pstmt_U1.close();
@@ -114,9 +112,9 @@ public class GeneralDAO {
         while(resultset.next()) {
             generaluser.setNumber(resultset.getInt("number"));
             generaluser.setAccountID(resultset.getString("accountID"));
-            generaluser.setPassword(resultset.getString("password"));
-            generaluser.setPrivateKey(resultset.getByte("privatekey"));
-            generaluser.setPublicKey(resultset.getByte("publickey"));
+            generaluser.setAccountPW(resultset.getString("password"));
+            generaluser.setPrivateKey(resultset.getBytes("privatekey"));
+            generaluser.setPublicKey(resultset.getBytes("publickey"));
             resultset.close();
         }
         return generaluser;

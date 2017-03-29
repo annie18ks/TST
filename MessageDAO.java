@@ -16,8 +16,6 @@ public class MessageDAO {
     PreparedStatement pstmt_U2; //UPDATE用 TST
     PreparedStatement pstmt_D; //DELETE用
 
-    ResultSet resultSet;
-
     String SELECT_MALICE = "SELECT * FROM message";
     String SELECT_SQL = "SELECT * FROM message WHERE number = ?";
     String INSERT_SQL = "INSERT INTO message (message, number, tst) VALUES (?, ?, ?)";
@@ -64,7 +62,7 @@ public class MessageDAO {
         return messages;
     }
 
-    public boolean makeMessage(Message message) throws SQLException{ //メッセージ作成
+    public boolean makeMessage(Message message, int number) throws SQLException{ //メッセージ作成
         boolean result = true;
         try{
             Class.forName(driverClassName);
@@ -72,8 +70,8 @@ public class MessageDAO {
 
             pstmt_I =connection.prepareStatement(INSERT_SQL);
             pstmt_I.setString(1, message.getMessage());
-            //pstmt_I.setInt(2, generaluser.getNumber);
-            pstmt_I.setByte(3, message.getTST());
+            pstmt_I.setInt(2, number);
+            pstmt_I.setBytes(3, message.getTst());
 
             pstmt_I.executeUpdate();
 
@@ -96,11 +94,11 @@ public class MessageDAO {
             pstmt_U2 = connection.prepareStatement(UPDATE_TST);
 
             pstmt_U1.setString(1,message.getMessage());
-            pstmt_U2.setInt(2,message.getMessageID);
+            pstmt_U1.setInt(2,message.getMessageID());
             pstmt_U1.executeUpdate();
 
-            pstmt_U2.setString(1,message.getTST());
-            pstmt_U2.setString(2,message.getMessageID);
+            pstmt_U2.setBytes(1,message.getTst());
+            pstmt_U2.setInt(2,message.getMessageID());
             pstmt_U2.executeUpdate();
 
             pstmt_U1.close();
@@ -113,12 +111,12 @@ public class MessageDAO {
         return result;
     }
 
-    public void deleteMessage(String messageID) throws SQLException{ //メッセージ削除
+    public void deleteMessage(int messageID) throws SQLException{ //メッセージ削除
         try{
             Class.forName(driverClassName);
             connection = DriverManager.getConnection(url, user, password);
             pstmt_D = connection.prepareStatement(DELETE_SQL);
-            pstmt_D.setString(1, messageID);
+            pstmt_D.setInt(1, messageID);
             pstmt_D.executeUpdate();
 
             pstmt_D.close();
@@ -129,14 +127,14 @@ public class MessageDAO {
         }
     }
 
-    static Message showTable(ResultSet resultset) throws Exception {
+    static Message showTable(ResultSet resultSet) throws Exception {
         Message message = new Message();
-        while(resultset.next()) {
-            message.setMessageID(resultset.getInt("messageID"));
-            message.setMessage(resultset.getString("message"));
-            message.setNumber(resultset.getInt("number"));
-            message.setTST(resultset.getByte("TST"));
-            resultset.close();
+        while(resultSet.next()) {
+            message.setMessageID(resultSet.getInt("messageID"));
+            message.setMessage(resultSet.getString("message"));
+            message.setNumber(resultSet.getInt("number"));
+            message.setTst(resultSet.getBytes("TST"));
+            resultSet.close();
         }
         return message;
     }
@@ -145,14 +143,14 @@ public class MessageDAO {
     ArrayList<Message> messages = new ArrayList<Message>();
     while(resultSet.next()) {
         Message message = new Message();
-        message.setMessageID(resultset.getInt("messageID"));
-        message.setMessage(resultset.getString("message"));
-        message.setNumber(resultset.getInt("number"));
-        message.setTST(resultset.getByte("TST"));
+        message.setMessageID(resultSet.getInt("messageID"));
+        message.setMessage(resultSet.getString("message"));
+        message.setNumber(resultSet.getInt("number"));
+        message.setTst(resultSet.getBytes("TST"));
 
         messages.add(message);
     }
-    resultset.close();
+    resultSet.close();
     return messages;
     }
 }
