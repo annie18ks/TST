@@ -14,14 +14,27 @@ a:hover { color: #996600; }
 }
 
 /*ページヘッダー*/
+
+#titleHead {
+    border-bottom: solid #CCCCCC;
+    border-width: 1px 0;
+}
+
+
 #titleHead #title{
     font-size: 50px;
     line-height: 1.2;
     margin-bottom: 0;
     font-family: 'Impact', serif;
+}
 
-    border-bottom: solid #CCCCCC;
-    border-width: 1px 0;
+#titleHead .menuList{
+    text-align: right;
+}
+
+#titleHead .menu{
+    font-size: 25px;
+    display: inline;
 }
 
 
@@ -35,6 +48,7 @@ a:hover { color: #996600; }
 #pageFoot #copyright small{
     font-size: 12px;
     line-height: 1.5;
+    float: right;
 }
 
 /*ページボディ*/
@@ -180,6 +194,20 @@ a:hover { color: #996600; }
 #pageBody .accountCreateTable .message{
     margin-top: 20px;
     margin-left: 20px;
+}
+
+/*------トップ画面--------*/
+#pageBody .accountCreateTable .listMessage{
+    background: #eee;
+    overflow: hidden;
+    width: 100%;
+}
+
+#pageBody .accountCreateTable .listMessage #messageTitle{
+    color: black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 
