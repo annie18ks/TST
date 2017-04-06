@@ -210,4 +210,27 @@ a:hover { color: #996600; }
     white-space: nowrap;
 }
 
+#pageBody .accountCreateTable .messageMenu ul{
+    margin: 0;
+}
+
+#pageBody .accountCreateTable .messageMenu ul:after{
+    content: "";
+    clear: both;
+    display: block;
+}
+
+#pageBody .accountCreateTable .messageMenu ul li{
+    list-style: none;
+    width: 110px;
+    float: left;
+    padding: 0 5px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-align: right;
+
+}
+
+
+
 
